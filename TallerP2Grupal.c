@@ -3,6 +3,7 @@
 void IngresarCalificaciones (int n, float calificaciones [][3]);
 void procesarEstudiantes(int n, float calificaciones[][3], float *promedios, float *maximos, float *minimos);
 void procesarAsignaturas(int n, float calificaciones[][3], float *promediosAsig, float *maxAsig, float *minAsig, int *aprobados, int *reprobados);
+void mostrarResultados(int n, float calificaciones[][3], float *promEst, float *maxEst, float *minEst, float *promAsig, float *maxAsig, float *minAsig, int *aprobAsig, int *reprobAsig);
 int main (){
     int n;
     printf("--Sistemas de gestion de calificaciones Udla--\n");
@@ -12,7 +13,14 @@ int main (){
         printf("Entrada invalida, ingrese un numero entero mayor a 0: ");
     }
     float calificaciones [n][3];
-    IngresarCalificaciones(n,calificaciones);
+    float promEstudiantes[n], maxEstudiantes[n], minEstudiantes[n];
+    float promAsignaturas[3], maxAsignaturas[3], minAsignaturas[3];
+    int aprobadosAsig[3], reprobadosAsig[3];
+
+    IngresarCalificaciones(n, calificaciones);
+    procesarEstudiantes(n, calificaciones, promEstudiantes, maxEstudiantes, minEstudiantes);
+    procesarAsignaturas(n, calificaciones, promAsignaturas, maxAsignaturas, minAsignaturas, aprobadosAsig, reprobadosAsig);
+    mostrarResultados(n, calificaciones, promEstudiantes, maxEstudiantes, minEstudiantes, promAsignaturas, maxAsignaturas, minAsignaturas, aprobadosAsig, reprobadosAsig);
     return 0;
 }
 void IngresarCalificaciones(int n, float calificaciones[][3]) {
@@ -49,59 +57,6 @@ void procesarEstudiantes(int n, float calificaciones[][3], float *promedios, flo
         *(minimos + i) = min;
     }
 }
-void procesarAsignaturas(
-    int n,
-    float calificaciones[][3],
-    float *promediosAsig,
-    float *maxAsig,
-    float *minAsig,
-    int *aprobados,
-    int *reprobados)
-{
-    int i, j;
-
-    for(j = 0; j < 3; j++)
-    {
-        float suma = 0;
-        float max = calificaciones[0][j];
-        float min = calificaciones[0][j];
-
-        int contAprobados = 0;
-        int contReprobados = 0;
-
-        for(i = 0; i < n; i++)
-        {
-            float nota = calificaciones[i][j];
-
-            suma += nota;
-
-            if(nota > max)
-            {
-                max = nota;
-            }
-
-            if(nota < min)
-            {
-                min = nota;
-            }
-
-            if(nota >= 6)
-            {
-                contAprobados++;
-            }
-            else
-            {
-                contReprobados++;
-            }
-        }
-
-        *(promediosAsig + j) = suma / n;
-        *(maxAsig + j) = max;
-        *(minAsig + j) = min;
-        *(aprobados + j) = contAprobados;
-        *(reprobados + j) = contReprobados;
-    }
-}
 void procesarAsignaturas(int n, float calificaciones[][3], float *promediosAsig, float *maxAsig, float *minAsig, int *aprobados, int *reprobados) {
     for (int j = 0; j < 3; j++) {
         float suma = 0;
@@ -128,4 +83,30 @@ void procesarAsignaturas(int n, float calificaciones[][3], float *promediosAsig,
         *(aprobados + j) = contAprobados;
         *(reprobados + j) = contReprobados;
     }
+}
+void mostrarResultados(int n, float calificaciones[][3], float *promEst, float *maxEst, float *minEst, float *promAsig, float *maxAsig, float *minAsig, int *aprobAsig, int *reprobAsig) {
+    printf("\n=========================================================\n");
+    printf("                  REPORTE DE CALIFICACIONES              \n");
+    printf("=========================================================\n");
+    
+    printf("Estudiante\tAsig1\tAsig2\tAsig3\tProm.\tMax\tMin\n");
+    for (int i = 0; i < n; i++) {
+        printf("Est. %d\t\t%.1f\t%.1f\t%.1f\t%.2f\t%.1f\t%.1f\n", 
+               i + 1, calificaciones[i][0], calificaciones[i][1], calificaciones[i][2], 
+               *(promEst + i), *(maxEst + i), *(minEst + i));
+    }
+    
+    printf("\n---------------------------------------------------------\n");
+    printf("ANÁLISIS ESTADÍSTICO POR ASIGNATURA:\n");
+    printf("---------------------------------------------------------\n");
+    for (int j = 0; j < 3; j++) {
+        printf("Asignatura %d:\n", j + 1);
+        printf("  > Promedio General: %.2f\n", *(promAsig + j));
+        printf("  > Calificacion Mas Alta: %.1f\n", *(maxAsig + j));
+        printf("  > Calificacion Mas Baja: %.1f\n", *(minAsig + j));
+        printf("  > Estudiantes Aprobados: %d\n", *(aprobAsig + j));
+        printf("  > Estudiantes Reprobados: %d\n", *(reprobAsig + j));
+        printf("\n");
+    }
+    printf("=========================================================\n");
 }
