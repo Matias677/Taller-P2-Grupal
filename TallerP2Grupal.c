@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+//Declaracion de funciones
 void IngresarCalificaciones (int n, float calificaciones [][3]);
 void procesarEstudiantes(int n, float calificaciones[][3], float *promedios, float *maximos, float *minimos);
 void procesarAsignaturas(int n, float calificaciones[][3], float *promediosAsig, float *maxAsig, float *minAsig, int *aprobados, int *reprobados);
@@ -60,6 +61,7 @@ void procesarEstudiantes(int n, float calificaciones[][3], float *promedios, flo
 void procesarAsignaturas(int n, float calificaciones[][3], float *promediosAsig, float *maxAsig, float *minAsig, int *aprobados, int *reprobados) {
     for (int j = 0; j < 3; j++) {
         float suma = 0;
+        //En esta parte la calificacion minima y máxima es la misma para toda la fila, cuando el for arranca recorre todos los alumnos y va comparando cada calificacion con la maxima y minima, si encuentra una calificacion mayor a la maxima, esta se actualiza, lo mismo para la minima, si encuentra una calificacion menor a la minima, esta se actualiza.
         float max = calificaciones[0][j];
         float min = calificaciones[0][j];
         int contAprobados = 0;
@@ -87,8 +89,8 @@ void procesarAsignaturas(int n, float calificaciones[][3], float *promediosAsig,
 void mostrarResultados(int n, float calificaciones[][3], float *promEst, float *maxEst, float *minEst, float *promAsig, float *maxAsig, float *minAsig, int *aprobAsig, int *reprobAsig) {
     printf("\n=========================================================\n");
     printf("                  REPORTE DE CALIFICACIONES              \n");
-    printf("=========================================================\n");
     
+    // No te olvides que el %.1f es para mostrar solo un decimal 
     printf("Estudiante\tAsig1\tAsig2\tAsig3\tProm.\tMax\tMin\n");
     for (int i = 0; i < n; i++) {
         printf("Est. %d\t\t%.1f\t%.1f\t%.1f\t%.2f\t%.1f\t%.1f\n", 
@@ -98,7 +100,7 @@ void mostrarResultados(int n, float calificaciones[][3], float *promEst, float *
     
     printf("\n---------------------------------------------------------\n");
     printf("ANÁLISIS ESTADÍSTICO POR ASIGNATURA:\n");
-    printf("---------------------------------------------------------\n");
+    
     for (int j = 0; j < 3; j++) {
         printf("Asignatura %d:\n", j + 1);
         printf("  > Promedio General: %.2f\n", *(promAsig + j));
@@ -108,5 +110,5 @@ void mostrarResultados(int n, float calificaciones[][3], float *promEst, float *
         printf("  > Estudiantes Reprobados: %d\n", *(reprobAsig + j));
         printf("\n");
     }
-    printf("=========================================================\n");
+    
 }
