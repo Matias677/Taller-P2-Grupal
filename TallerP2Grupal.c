@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 void IngresarCalificaciones (int n, float calificaciones [][3]);
+void procesarEstudiantes(int n, float calificaciones[][3], float *promedios, float *maximos, float *minimos);
+void procesarAsignaturas(int n, float calificaciones[][3], float *promediosAsig, float *maxAsig, float *minAsig, int *aprobados, int *reprobados);
 int main (){
     int n;
     printf("--Sistemas de gestion de calificaciones Udla--\n");
@@ -94,6 +96,33 @@ void procesarAsignaturas(
         }
 
         *(promediosAsig + j) = suma / n;
+        *(maxAsig + j) = max;
+        *(minAsig + j) = min;
+        *(aprobados + j) = contAprobados;
+        *(reprobados + j) = contReprobados;
+    }
+}
+void procesarAsignaturas(int n, float calificaciones[][3], float *promediosAsig, float *maxAsig, float *minAsig, int *aprobados, int *reprobados) {
+    for (int j = 0; j < 3; j++) {
+        float suma = 0;
+        float max = calificaciones[0][j];
+        float min = calificaciones[0][j];
+        int contAprobados = 0;
+        int contReprobados = 0;
+
+        for (int i = 0; i < n; i++) {
+            float nota = calificaciones[i][j];
+            suma += nota;
+            if (nota > max) max = nota;
+            if (nota < min) min = nota;
+
+            if (nota >= 6.0f) {
+                contAprobados++;
+            } else {
+                contReprobados++;
+            }
+        }
+        *(promediosAsig + j) = suma / (float)n;
         *(maxAsig + j) = max;
         *(minAsig + j) = min;
         *(aprobados + j) = contAprobados;
