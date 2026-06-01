@@ -13,7 +13,6 @@ int main (){
     IngresarCalificaciones(n,calificaciones);
     return 0;
 }
-// --- Análisis Estadístico por Estudiante (Tu Commit 1) ---
 void procesarEstudiantes(int n, float calificaciones[][3], float *promedios, float *maximos, float *minimos) {
     for (int i = 0; i < n; i++) {
         float suma = 0;
@@ -26,7 +25,6 @@ void procesarEstudiantes(int n, float calificaciones[][3], float *promedios, flo
             if (nota > max) max = nota;
             if (nota < min) min = nota;
         }
-        // Asignación mediante desreferenciación de punteros
         *(promedios + i) = suma / 3.0f;
         *(maximos + i) = max;
         *(minimos + i) = min;
